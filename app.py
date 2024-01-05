@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Access the OpenAI API key
-openai_api_key = os.getenv("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")
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # Initialize OpenAI client
 open_ai_client = OpenAI(api_key=openai_api_key)
