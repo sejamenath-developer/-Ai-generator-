@@ -1,30 +1,26 @@
-# Import necessary libraries
 from pydantic import BaseModel
 from typing import List
+from openai import OpenAI, Instructor
 import streamlit as st
-from openai import OpenAI
-from dotenv import load_dotenv
 
-# Load environment variables from the .env file
-load_dotenv()
+# Define the BaseModel class for data validation
+class Titles(BaseModel):
+    titles: List[str]
 
-# Access the OpenAI API key
-openai_api_key = os.getenv("OPENAI_API_KEY")
+# Replace this with your OpenAI API key
+openai_api_key = "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"
 
-# Initialize OpenAI client
+# Access the OpenAI API
 open_ai_client = OpenAI(api_key=openai_api_key)
+instructor = Instructor(open_ai_client)
 
 def structured_generator(openai_model, prompt, custom_model):
-    result = open_ai_client.chat.completions.create(
+    result: custom_model = open_ai_client.chat.completions.create(
         model=openai_model,
         response_model=custom_model,
         messages=[{"role": "user", "content": f"{prompt}, output must be in json"}]
     )
     return result
-
-# Define the BaseModel class for data validation
-class Titles(BaseModel):
-    titles: List[str]
 
 # Streamlit code to create the UI
 def main():
